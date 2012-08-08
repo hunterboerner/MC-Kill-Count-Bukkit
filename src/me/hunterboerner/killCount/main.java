@@ -21,12 +21,22 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getMessenger().registerOutgoingPluginChannel(this, "KillCount");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "DeathCount");
+        try{
+            kills = SLAPI.load(this.getDataFolder() + "/kills.bin");
+        }catch(Exception e) {
+        	e.printStackTrace();
+        }
+        
+        try{
+            deaths = SLAPI.load(this.getDataFolder() + "/deaths.bin");
+        }catch(Exception e) {
+        	e.printStackTrace();
+        }
 	}
 	
 	public void onDisable(){
 		getLogger().info("Kill Count " + this.getDescription().getVersion() + " has been enabled");
 	}
-	
 
 	
 	@EventHandler
@@ -43,6 +53,11 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 		if (playerDeath.getEntity().getListeningPluginChannels().contains("KillCount")){
 			 String deathString = deathCount + "";
 			 playerDeath.getEntity().sendPluginMessage(this, "DeathCount", deathString.getBytes(java.nio.charset.Charset.forName("UTF-8")));
+			 try{
+				 SLAPI.save(deaths, this.getDataFolder() + "/deaths.bin");
+			 }catch(Exception e) {
+				 e.printStackTrace();
+			 }
 		}
 	}
 	
@@ -61,6 +76,11 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 			if (killer.getListeningPluginChannels().contains("KillCount"))	{
 				String killString = killCount + "";
 				killer.sendPluginMessage(this, "KillCount", killString.getBytes(java.nio.charset.Charset.forName("UTF-8")));
+				try{
+					 SLAPI.save(kills, this.getDataFolder() + "/kills.bin");
+				 }catch(Exception e) {
+					 e.printStackTrace();
+				 }
 			}
 		}
 		
