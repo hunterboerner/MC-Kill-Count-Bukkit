@@ -100,6 +100,7 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 		getServer().getScheduler().scheduleSyncDelayedTask(this,
 				new Runnable() {
 
+			
 					public void run() {
 						if (join2.getPlayer().getListeningPluginChannels()
 								.contains("KillCount")) {
