@@ -103,7 +103,6 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 					public void run() {
 						if (join2.getPlayer().getListeningPluginChannels()
 								.contains("KillCount")) {
-							getLogger().info("init");
 							int killCount = 0;
 							if (kills.get(join2.getPlayer().getName()) != null) {
 								killCount = kills.get(join2.getPlayer()
@@ -124,7 +123,7 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 							}
 						}
 
-						else if (join2.getPlayer().getListeningPluginChannels()
+						if (join2.getPlayer().getListeningPluginChannels()
 								.contains("DeathCount")) {
 							int deathCount = 0;
 							if (deaths.get(join2.getPlayer().getName()) != null) {
@@ -146,7 +145,7 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 							}
 						}
 					}
-				}, 60L);
+				}, 1L);
 
 	}
 
