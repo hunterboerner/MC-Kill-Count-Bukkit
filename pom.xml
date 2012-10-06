@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>MC-Kill-Count-Bukkit</groupId>
   <artifactId>MC-Kill-Count-Bukkit</artifactId>
-  <version>0.5.1-SNAPSHOT</version>
+  <version>0.6-SNAPSHOT</version>
   <name>killcount-bukkit</name>
   <build>
     <sourceDirectory>src</sourceDirectory>

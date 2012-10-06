@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.GameMode;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -100,7 +102,6 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 		getServer().getScheduler().scheduleSyncDelayedTask(this,
 				new Runnable() {
 
-			
 					public void run() {
 						if (join2.getPlayer().getListeningPluginChannels()
 								.contains("KillCount")) {
@@ -148,6 +149,54 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 					}
 				}, 1L);
 
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label,
+			String[] args) {
+		if (cmd.getName().equalsIgnoreCase("kdclear")) {
+			if (!(sender instanceof Player)) {
+				getLogger().info("Only a player may use the war command.");
+			} else {
+				Player player = (Player) sender;
+
+				int killCount = 0;
+				if (kills.get(player.getName()) != null) {
+					kills.put(player.getName(), killCount);
+				}
+
+				if (player.getListeningPluginChannels().contains("KillCount")) {
+					String killString = killCount + "";
+					player.sendPluginMessage(this, "KillCount", killString
+							.getBytes(java.nio.charset.Charset.forName("UTF-8")));
+					try {
+						SLAPI.save(kills, this.getDataFolder() + "/kills.bin");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
+				int deathCount = 0;
+				if (deaths.get(player.getName()) != null) {
+					deaths.put(player.getName(), deathCount);
+				}
+
+				if (player.getListeningPluginChannels().contains("KillCount")) {
+					String deathString = deathCount + "";
+					player.sendPluginMessage(this, "DeathCount",
+							deathString.getBytes(java.nio.charset.Charset
+									.forName("UTF-8")));
+					try {
+						SLAPI.save(deaths, this.getDataFolder() + "/deaths.bin");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return false;
+				}
+			}
+
+		}
+		return true;
 	}
 
 }
