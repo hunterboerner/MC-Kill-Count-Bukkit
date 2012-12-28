@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_Gkb1IVClEeKPTomHmCuuNw" elementId="org.eclipse.e4.legacy.ide.application" contributorURI="platform:/plugin/org.eclipse.ui.workbench" selectedElement="_Gkb1IlClEeKPTomHmCuuNw" bindingContexts="_GkccNFClEeKPTomHmCuuNw">
   <tags>activeSchemeId:org.eclipse.ui.defaultAcceleratorConfiguration</tags>
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_Gkb1IlClEeKPTomHmCuuNw" elementId="IDEWindow" contributorURI="platform:/plugin/org.eclipse.ui.workbench" selectedElement="_G_mHIFClEeKPTomHmCuuNw" x="857" y="195" width="1024" height="768">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_Gkb1IlClEeKPTomHmCuuNw" elementId="IDEWindow" contributorURI="platform:/plugin/org.eclipse.ui.workbench" selectedElement="_G_mHIFClEeKPTomHmCuuNw" x="0" y="0" width="960" height="1160">
     <tags>topLevel</tags>
     <children xsi:type="basic:PartSashContainer" xmi:id="_G_mHIFClEeKPTomHmCuuNw" selectedElement="_G_mHIVClEeKPTomHmCuuNw" horizontal="true">
       <children xsi:type="advanced:PerspectiveStack" xmi:id="_G_mHIVClEeKPTomHmCuuNw" elementId="PerspectiveStack" containerData="7500" selectedElement="_HNbHwFClEeKPTomHmCuuNw">
@@ -83,10 +83,10 @@
                 <children xsi:type="advanced:Placeholder" xmi:id="_HNbHzFClEeKPTomHmCuuNw" elementId="org.eclipse.egit.ui.RepositoriesView" toBeRendered="false" ref="_HNYrgFClEeKPTomHmCuuNw"/>
               </children>
             </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_HNbHzVClEeKPTomHmCuuNw" containerData="7500">
-              <children xsi:type="basic:PartSashContainer" xmi:id="_HNbHzlClEeKPTomHmCuuNw" containerData="7500" horizontal="true">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_HNbHzVClEeKPTomHmCuuNw" containerData="7500" selectedElement="_HNbHzlClEeKPTomHmCuuNw">
+              <children xsi:type="basic:PartSashContainer" xmi:id="_HNbHzlClEeKPTomHmCuuNw" containerData="7500" selectedElement="_HNbHz1ClEeKPTomHmCuuNw" horizontal="true">
                 <children xsi:type="advanced:Placeholder" xmi:id="_HNbHz1ClEeKPTomHmCuuNw" elementId="org.eclipse.ui.editorss" containerData="7500" ref="_HModkFClEeKPTomHmCuuNw"/>
-                <children xsi:type="basic:PartSashContainer" xmi:id="_HNbu0FClEeKPTomHmCuuNw" containerData="2500">
+                <children xsi:type="basic:PartSashContainer" xmi:id="_HNbu0FClEeKPTomHmCuuNw" containerData="2500" selectedElement="_HNbu0VClEeKPTomHmCuuNw">
                   <children xsi:type="basic:PartStack" xmi:id="_HNbu0VClEeKPTomHmCuuNw" elementId="org.eclipse.mylyn.tasks.ui.views.tasksMStack" containerData="5000" selectedElement="_HNbu0lClEeKPTomHmCuuNw">
                     <tags>newtablook</tags>
                     <children xsi:type="advanced:Placeholder" xmi:id="_HNbu0lClEeKPTomHmCuuNw" elementId="org.eclipse.mylyn.tasks.ui.views.tasks" ref="_HNZSkFClEeKPTomHmCuuNw"/>
@@ -138,11 +138,16 @@
       <tags>View</tags>
       <tags>categoryTag:Help</tags>
     </sharedElements>
-    <sharedElements xsi:type="advanced:Area" xmi:id="_HModkFClEeKPTomHmCuuNw" elementId="org.eclipse.ui.editorss">
-      <children xsi:type="basic:PartStack" xmi:id="_HModkVClEeKPTomHmCuuNw" elementId="org.eclipse.e4.primaryDataStack">
+    <sharedElements xsi:type="advanced:Area" xmi:id="_HModkFClEeKPTomHmCuuNw" elementId="org.eclipse.ui.editorss" selectedElement="_HModkVClEeKPTomHmCuuNw">
+      <children xsi:type="basic:PartStack" xmi:id="_HModkVClEeKPTomHmCuuNw" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_77IOUFELEeKuBd48ZCItwA">
         <tags>newtablook</tags>
         <tags>org.eclipse.e4.primaryDataStack</tags>
         <tags>EditorStack</tags>
+        <children xsi:type="basic:Part" xmi:id="_77IOUFELEeKuBd48ZCItwA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="C:\Users\Theron\git\MC-Kill-Count-Bukkit\pom.xml" iconURI="platform:/plugin/org.eclipse.m2e.editor/icons/editor-pom.gif" tooltip="C:\Users\Theron\git\MC-Kill-Count-Bukkit\pom.xml" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.m2e.editor.MavenPomEditor&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.ide.FileStoreEditorInputFactory&quot; uri=&quot;file:/C:/Users/Theron/git/MC-Kill-Count-Bukkit/pom.xml&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>removeOnHide</tags>
+        </children>
       </children>
     </sharedElements>
     <sharedElements xsi:type="basic:Part" xmi:id="_HM-b0FClEeKPTomHmCuuNw" elementId="org.eclipse.jdt.ui.PackageExplorer" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Package Explorer" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/eview16/package.gif" tooltip="Workspace" closeable="true">
