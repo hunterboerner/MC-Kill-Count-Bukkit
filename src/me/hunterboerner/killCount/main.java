@@ -18,6 +18,7 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
     Map<String, Integer> deaths = new HashMap<String, Integer>();
 
     public void onEnable() {
+        getDataFolder.mkdir();
         getLogger().info(
                 "KillCount " + this.getDescription().getVersion()
                         + " has been enabled.");
