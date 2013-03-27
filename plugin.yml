@@ -1,7 +1,8 @@
 name: Kill Count
 main: me.hunterboerner.killCount.main
-version: 0.6
+version: 1.0
 author: hunterboerner
 commands:
   kdclear:
     description: Clear kills and deaths
+depend: [ScoreboardAPI]
