@@ -6,18 +6,26 @@ import java.util.Map;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import yt.codebukkit.scoreboardapi.Scoreboard;
+import yt.codebukkit.scoreboardapi.ScoreboardAPI;
+
 public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener {
+	ScoreboardAPI api = ScoreboardAPI.getInstance();
+	Scoreboard killCountBoard = api.createScoreboard("kc", 2);
+
     Map<String, Integer> kills = new HashMap<String, Integer>();
     Map<String, Integer> deaths = new HashMap<String, Integer>();
 
     public void onEnable() {
+    	killCountBoard.setType(Scoreboard.Type.SIDEBAR);
+    	killCountBoard.setScoreboardName("KillCounter");
         getDataFolder().mkdir();
         getLogger().info(
                 "KillCount " + this.getDescription().getVersion()
@@ -70,6 +78,7 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
                 e.printStackTrace();
             }
         }
+        killCountBoard.setItem("Deaths", deathCount);
     }
 
     @EventHandler
@@ -82,7 +91,7 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
             }
             killCount++;
             kills.put(killer.getName(), killCount);
-
+        
             if (killer.getListeningPluginChannels().contains("KillCount")) {
                 String killString = killCount + "";
                 killer.sendPluginMessage(this, "KillCount", killString
@@ -93,7 +102,9 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
                     e.printStackTrace();
                 }
             }
+            killCountBoard.setItem("Deaths", killCount);
         }
+      
 
     }
 
