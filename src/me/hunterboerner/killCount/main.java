@@ -26,6 +26,8 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
     public void onEnable() {
     	killCountBoard.setType(Scoreboard.Type.SIDEBAR);
     	killCountBoard.setScoreboardName("KillCounter");
+    	killCountBoard.setScoreboardName("Scores");
+    	
         getDataFolder().mkdir();
         getLogger().info(
                 "KillCount " + this.getDescription().getVersion()
@@ -79,6 +81,7 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
             }
         }
         killCountBoard.setItem("Deaths", deathCount);
+        killCountBoard.showToPlayer(playerDeath.getEntity(), true);
     }
 
     @EventHandler
@@ -103,6 +106,7 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
                 }
             }
             killCountBoard.setItem("Deaths", killCount);
+            killCountBoard.showToPlayer(killer, true);
         }
       
 
