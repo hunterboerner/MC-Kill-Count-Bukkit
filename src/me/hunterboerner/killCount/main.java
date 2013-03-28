@@ -105,7 +105,7 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
                     e.printStackTrace();
                 }
             }
-            killCountBoard.setItem("Deaths", killCount);
+            killCountBoard.setItem("Kills", killCount);
             killCountBoard.showToPlayer(killer, true);
         }
       
@@ -115,6 +115,7 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent join) {
         final PlayerJoinEvent join2 = join;
+        killCountBoard.showToPlayer(join.getPlayer(), true);
         getServer().getScheduler().scheduleSyncDelayedTask(this,
                 new Runnable() {
 
