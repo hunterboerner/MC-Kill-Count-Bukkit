@@ -76,6 +76,12 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 				killCount / deathCount);
 		killCountBoard.showToPlayer(playerDeath.getEntity(), true);
 
+		try {
+			SLAPI.save(deaths, this.getDataFolder() + "/deaths.bin");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	int killCount = 0;
@@ -100,6 +106,11 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 					/ deathCount);
 
 			killCountBoard.showToPlayer(killer, true);
+			try {
+				SLAPI.save(kills, main.this.getDataFolder() + "/kills.bin");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		}
 
@@ -107,8 +118,9 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent join) {
+		killCountBoard.setItem(join.getPlayer().getName(), killCount
+				/ deathCount);
 		killCountBoard.showToPlayer(join.getPlayer(), true);
-
 	}
 
 	@Override
@@ -125,13 +137,23 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 					kills.put(player.getName(), killCount);
 				}
 
-
 				int deathCount = 0;
 				if (deaths.get(player.getName()) != null) {
 					deaths.put(player.getName(), deathCount);
 				}
-				
+
 				killCountBoard.setItem(player.getName(), 0);
+				try {
+					SLAPI.save(deaths, this.getDataFolder() + "/deaths.bin");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				try {
+					SLAPI.save(kills, main.this.getDataFolder() + "/kills.bin");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
 			}
 
