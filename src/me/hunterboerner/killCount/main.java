@@ -72,8 +72,10 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 		playerDeath.getEntityType();
 		killCountBoard.setItem(dead, killCount / deathCount);
 		playerDeath.getEntityType();
-		killCountBoard.setItem(playerDeath.getEntity().getKiller().getName(),
-				killCount / deathCount);
+		if (playerDeath.getEntity().getKiller() instanceof Player) {
+			killCountBoard.setItem(playerDeath.getEntity().getKiller()
+					.getName(), killCount / deathCount);
+		}
 		killCountBoard.showToPlayer(playerDeath.getEntity(), true);
 
 		try {
@@ -89,7 +91,8 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 	@EventHandler
 	public void onDeath(EntityDeathEvent death) {
 		Player killer = death.getEntity().getKiller();
-		if (killer != null && killer.getGameMode() != GameMode.CREATIVE) {
+		if (killer != null && killer.getGameMode() != GameMode.CREATIVE
+				&& killer instanceof Player) {
 
 			if (kills.get(killer.getName()) != null) {
 				killCount = kills.get(killer.getName());
@@ -118,6 +121,13 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent join) {
+		if (kills.get(join.getPlayer().getName()) != null) {
+			killCount = kills.get(join.getPlayer().getName());
+		}
+		if (deaths.get(join.getPlayer().getName()) != null) {
+			deathCount = deaths.get(join.getPlayer().getName());
+		}
+
 		killCountBoard.setItem(join.getPlayer().getName(), killCount
 				/ deathCount);
 		killCountBoard.showToPlayer(join.getPlayer(), true);
