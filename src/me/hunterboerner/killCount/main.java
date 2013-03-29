@@ -6,6 +6,7 @@ import java.util.Map;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,200 +21,122 @@ public class main extends org.bukkit.plugin.java.JavaPlugin implements Listener 
 	ScoreboardAPI api = ScoreboardAPI.getInstance();
 	Scoreboard killCountBoard = api.createScoreboard("kc", 2);
 
-    Map<String, Integer> kills = new HashMap<String, Integer>();
-    Map<String, Integer> deaths = new HashMap<String, Integer>();
+	Map<String, Integer> kills = new HashMap<String, Integer>();
+	Map<String, Integer> deaths = new HashMap<String, Integer>();
 
-    public void onEnable() {
-    	killCountBoard.setType(Scoreboard.Type.SIDEBAR);
-    	killCountBoard.setScoreboardName("KillCounter");
-    	killCountBoard.setScoreboardName("Scores");
-    	
-        getDataFolder().mkdir();
-        getLogger().info(
-                "KillCount " + this.getDescription().getVersion()
-                        + " has been enabled.");
-        getServer().getPluginManager().registerEvents(this, this);
-        getServer().getMessenger().registerOutgoingPluginChannel(this,
-                "KillCount");
-        getServer().getMessenger().registerOutgoingPluginChannel(this,
-                "DeathCount");
-        try {
-            kills = SLAPI.load(this.getDataFolder() + "/kills.bin");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	public void onEnable() {
+		killCountBoard.setType(Scoreboard.Type.SIDEBAR);
+		killCountBoard.setScoreboardName("KillCounter");
+		killCountBoard.setScoreboardName("Scores");
 
-        try {
-            deaths = SLAPI.load(this.getDataFolder() + "/deaths.bin");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		getDataFolder().mkdir();
+		getLogger().info(
+				"KillCount " + this.getDescription().getVersion()
+						+ " has been enabled.");
+		getServer().getPluginManager().registerEvents(this, this);
+		getServer().getMessenger().registerOutgoingPluginChannel(this,
+				"KillCount");
+		getServer().getMessenger().registerOutgoingPluginChannel(this,
+				"DeathCount");
+		try {
+			kills = SLAPI.load(this.getDataFolder() + "/kills.bin");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    public void onDisable() {
-        getLogger().info(
-                "Kill Count " + this.getDescription().getVersion()
-                        + " has been disabled");
-    }
+		try {
+			deaths = SLAPI.load(this.getDataFolder() + "/deaths.bin");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent playerDeath) {
-        String dead = playerDeath.getEntity().getName();
-        int deathCount = 0;
-        if (deaths.get(dead) != null) {
-            deathCount = deaths.get(dead);
-        }
-        deathCount++;
-        deaths.put(dead, deathCount);
+	public void onDisable() {
+		getLogger().info(
+				"Kill Count " + this.getDescription().getVersion()
+						+ " has been disabled");
+	}
 
-        if (playerDeath.getEntity().getListeningPluginChannels()
-                .contains("KillCount")) {
-            String deathString = deathCount + "";
-            playerDeath.getEntity().sendPluginMessage(
-                    this,
-                    "DeathCount",
-                    deathString.getBytes(java.nio.charset.Charset
-                            .forName("UTF-8")));
-            try {
-                SLAPI.save(deaths, this.getDataFolder() + "/deaths.bin");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        killCountBoard.setItem("Deaths", deathCount);
-        killCountBoard.showToPlayer(playerDeath.getEntity(), true);
-    }
+	int deathCount = 0;
 
-    @EventHandler
-    public void onDeath(EntityDeathEvent death) {
-        Player killer = death.getEntity().getKiller();
-        if (killer != null && killer.getGameMode() != GameMode.CREATIVE) {
-            int killCount = 0;
-            if (kills.get(killer.getName()) != null) {
-                killCount = kills.get(killer.getName());
-            }
-            killCount++;
-            kills.put(killer.getName(), killCount);
-        
-            if (killer.getListeningPluginChannels().contains("KillCount")) {
-                String killString = killCount + "";
-                killer.sendPluginMessage(this, "KillCount", killString
-                        .getBytes(java.nio.charset.Charset.forName("UTF-8")));
-                try {
-                    SLAPI.save(kills, this.getDataFolder() + "/kills.bin");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            killCountBoard.setItem("Kills", killCount);
-            killCountBoard.showToPlayer(killer, true);
-        }
-      
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent playerDeath) {
+		String dead = playerDeath.getEntity().getName();
 
-    }
+		if (deaths.get(dead) != null) {
+			deathCount = deaths.get(dead);
+		}
+		deathCount++;
+		deaths.put(dead, deathCount);
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent join) {
-        final PlayerJoinEvent join2 = join;
-        killCountBoard.showToPlayer(join.getPlayer(), true);
-        getServer().getScheduler().scheduleSyncDelayedTask(this,
-                new Runnable() {
+		playerDeath.getEntityType();
+		killCountBoard.setItem(dead, killCount / deathCount);
+		playerDeath.getEntityType();
+		killCountBoard.setItem(playerDeath.getEntity().getKiller().getName(),
+				killCount / deathCount);
+		killCountBoard.showToPlayer(playerDeath.getEntity(), true);
 
-                    public void run() {
-                        if (join2.getPlayer().getListeningPluginChannels()
-                                .contains("KillCount")) {
-                            int killCount = 0;
-                            if (kills.get(join2.getPlayer().getName()) != null) {
-                                killCount = kills.get(join2.getPlayer()
-                                        .getName());
-                            }
-                            String killString = killCount + "";
-                            join2.getPlayer().sendPluginMessage(
-                                    main.this,
-                                    "KillCount",
-                                    killString
-                                            .getBytes(java.nio.charset.Charset
-                                                    .forName("UTF-8")));
-                            try {
-                                SLAPI.save(kills, main.this.getDataFolder()
-                                        + "/kills.bin");
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
+	}
 
-                        if (join2.getPlayer().getListeningPluginChannels()
-                                .contains("DeathCount")) {
-                            int deathCount = 0;
-                            if (deaths.get(join2.getPlayer().getName()) != null) {
-                                deathCount = deaths.get(join2.getPlayer()
-                                        .getName());
-                            }
-                            String deathString = deathCount + "";
-                            join2.getPlayer().sendPluginMessage(
-                                    main.this,
-                                    "DeathCount",
-                                    deathString
-                                            .getBytes(java.nio.charset.Charset
-                                                    .forName("UTF-8")));
-                            try {
-                                SLAPI.save(deaths, main.this.getDataFolder()
-                                        + "/deaths.bin");
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }, 1L);
+	int killCount = 0;
 
-    }
+	@EventHandler
+	public void onDeath(EntityDeathEvent death) {
+		Player killer = death.getEntity().getKiller();
+		if (killer != null && killer.getGameMode() != GameMode.CREATIVE) {
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label,
-                             String[] args) {
-        if (cmd.getName().equalsIgnoreCase("kdclear")) {
-            if (!(sender instanceof Player)) {
-                getLogger().info("Only a player may use the war command.");
-            } else {
-                Player player = (Player) sender;
+			if (kills.get(killer.getName()) != null) {
+				killCount = kills.get(killer.getName());
+			}
+			killCount++;
+			kills.put(killer.getName(), killCount);
 
-                int killCount = 0;
-                if (kills.get(player.getName()) != null) {
-                    kills.put(player.getName(), killCount);
-                }
+			death.getEntityType();
+			killCountBoard.setItem(killer.getName(), killCount / deathCount);
 
-                if (player.getListeningPluginChannels().contains("KillCount")) {
-                    String killString = killCount + "";
-                    player.sendPluginMessage(this, "KillCount", killString
-                            .getBytes(java.nio.charset.Charset.forName("UTF-8")));
-                    try {
-                        SLAPI.save(kills, this.getDataFolder() + "/kills.bin");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+			death.getEntityType();
+			death.getEntityType();
+			killCountBoard.setItem(EntityType.PLAYER.getName(), killCount
+					/ deathCount);
 
-                int deathCount = 0;
-                if (deaths.get(player.getName()) != null) {
-                    deaths.put(player.getName(), deathCount);
-                }
+			killCountBoard.showToPlayer(killer, true);
 
-                if (player.getListeningPluginChannels().contains("KillCount")) {
-                    String deathString = deathCount + "";
-                    player.sendPluginMessage(this, "DeathCount",
-                            deathString.getBytes(java.nio.charset.Charset
-                                    .forName("UTF-8")));
-                    try {
-                        SLAPI.save(deaths, this.getDataFolder() + "/deaths.bin");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    return false;
-                }
-            }
+		}
 
-        }
-        return true;
-    }
+	}
+
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent join) {
+		killCountBoard.showToPlayer(join.getPlayer(), true);
+
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label,
+			String[] args) {
+		if (cmd.getName().equalsIgnoreCase("kdclear")) {
+			if (!(sender instanceof Player)) {
+				getLogger().info("Only a player may use the kdclear command.");
+			} else {
+				Player player = (Player) sender;
+				killCountBoard.showToPlayer(player, true);
+				int killCount = 0;
+				if (kills.get(player.getName()) != null) {
+					kills.put(player.getName(), killCount);
+				}
+
+
+				int deathCount = 0;
+				if (deaths.get(player.getName()) != null) {
+					deaths.put(player.getName(), deathCount);
+				}
+				
+				killCountBoard.setItem(player.getName(), 0);
+
+			}
+
+		}
+		return true;
+	}
 
 }
